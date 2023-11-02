@@ -77,6 +77,7 @@ class Table:
         return self.table_name + ':' + str(self.table)
 
 
+# Print the average temperature for all the cities in Italy
 table1 = Table('cities', cities)
 table2 = Table('countries', countries)
 my_DB = DB()
@@ -89,6 +90,9 @@ print(my_table1)
 print()
 print(my_table1_selected)
 
+
+# all cities, not in the EU, avg temp < 5.0
+# Requires joining cities and countries
 temps = []
 for item in my_table1_filtered.table:
     temps.append(float(item['temperature']))
@@ -102,3 +106,29 @@ my_table3 = my_table1.join(my_table2, 'country')
 my_table3_filtered = my_table3.filter(lambda x: x['EU'] == 'no').filter(
     lambda x: float(x['temperature']) < 5.0)
 print(my_table3_filtered.table)
+
+########################
+
+# all cities, not in the EU, avg temp < 5.0
+# Requires joining cities and countries
+
+print()
+my_table4 = my_table3.filter(lambda x: x['EU'] == 'yes').filter(
+    lambda x: x['coastline'] == 'no')
+min_temp = my_table4.aggregate(lambda x: min(x), 'temperature')
+city_min = my_table4.filter(lambda x: x['temperature'] == str(min)).select(
+    ['city', 'temperature'])
+max_temp = new = my_table4.aggregate(lambda x: max(x), 'temperature')
+city_max = my_table4.filter(lambda x: x['temperature'] == str(max)).select(
+    ['city', 'temperature'])
+
+print(city_min)
+print(min_temp)
+print(city_max)
+print(max_temp)
+
+# min, max for all cities
+min_latitude = my_table3.aggregate(lambda x: min(x), 'latitude')
+max_latitude = my_table3.aggregate(lambda x: max(x), 'latitude')
+print(min_latitude)
+print(max_latitude)
