@@ -55,11 +55,18 @@ class AccountDB:
     #     else:
     #         print(num, "invalid account number; nothing to be deleted.")
 
+    # def delete_account(self, account_num):
+    #     search_account = self.__search_private(account_num)
+    #     if search_account != 1:
+    #         print("Deleting account:", account_num)
+    #         del account_database[search_account]
+    #     else:
+    #         print(account_num, "invalid account number; nothing to be deleted.")
     def delete_account(self, account_num):
-        search_account = self.__search_private(account_num)
-        if search_account != 1:
+        account = self.search_public(account_num)
+        if account:
             print("Deleting account:", account_num)
-            del account_database[i]
+            self.account_database.remove(account)
         else:
             print(account_num, "invalid account number; nothing to be deleted.")
 
@@ -178,7 +185,10 @@ print()
 my_account_DB.search_public("0003").deposit(50)
 print(my_account_DB)
 my_account_DB.search_public("0003").withdraw(100)
+# print(my_account_DB)
+# my_account_DB.search_public("0010").deposit(50)
+# print(my_account_DB)
+print()
 print(my_account_DB)
-my_account_DB.search_public("0010").deposit(50)
+my_account_DB.delete_account("0003")
 print(my_account_DB)
-
